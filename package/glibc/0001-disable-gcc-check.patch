@@ -1,0 +1,13 @@
+diff -urN glibc-2.19.old/configure glibc-2.19/configure
+--- a/configure	2014-02-07 10:04:38.000000000 +0100
++++ b/configure	2021-02-02 21:40:26.394577004 +0100
+@@ -4719,7 +4719,7 @@
+ $as_echo "$ac_prog_version" >&6; }
+ fi
+ if test $ac_verc_fail = yes; then
+-  critic_missing="$critic_missing gcc"
++  echo "Ignorning failed GCC check"
+ fi
+ 
+ for ac_prog in gnumake gmake make
+
