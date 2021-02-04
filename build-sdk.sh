@@ -2,7 +2,7 @@
 set -e
  
 function usage() {
-  echo "usage: $0 i686|x86_64|aarch64"
+  echo "usage: $0 i686|x86_64|armv7"
   exit 1
 }
 
@@ -13,12 +13,15 @@ fi
 case $1 in
   i686)
     cp config-godot-i686 .config
+    toolchain_prefix=i686-godot-linux-gnu
   ;;
   x86_64)
     cp config-godot-x86_64 .config
+    toolchain_prefix=x86_64-godot-linux-gnu
   ;;
-  aarch64)
-    cp config-godot-aarch64 .config
+  armv74)
+    cp config-godot-armv7 .config
+    toolchain_prefix=arm-godot-linux-gnueabihf
   ;;
   *)
     usage
@@ -38,7 +41,7 @@ ${container} build -f Dockerfile.builder -t godot-buildroot-builder
 ${container} run -it --rm -v $(pwd):/tmp/buildroot -w /tmp/buildroot -e FORCE_UNSAFE_CONFIGURE=1 --userns=keep-id godot-buildroot-builder bash -c "make olddefconfig; make clean sdk"
 
 mkdir -p godot-toolchains
-mv output/images/$1-godot-linux-gnu_sdk-buildroot.tar.gz godot-toolchains
+mv output/images/${toolchain_prefix}_sdk-buildroot.tar.gz godot-toolchains
 
 echo
 echo "***************************************"
