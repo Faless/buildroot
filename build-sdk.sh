@@ -19,7 +19,7 @@ case $1 in
     cp config-godot-x86_64 .config
     toolchain_prefix=x86_64-godot-linux-gnu
   ;;
-  armv74)
+  armv7)
     cp config-godot-armv7 .config
     toolchain_prefix=arm-godot-linux-gnueabihf
   ;;
