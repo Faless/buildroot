@@ -40,7 +40,7 @@ echo "Relocating the buildroot SDK from ${OLDPATH} to ${NEWPATH} ..."
 # Make sure file uses the right language
 export LC_ALL=C
 # Replace the old path with the new one in all text files
-grep -lr "${OLDPATH}" . | while read -r FILE ; do
+grep -Ilr "${OLDPATH}" . | while read -r FILE ; do
     if file -b --mime-type "${FILE}" | grep -q '^text/' && [ "${FILE}" != "${LOCFILE}" ]
     then
         sed -i "s|${OLDPATH}|${NEWPATH}|g" "${FILE}"
