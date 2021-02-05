@@ -38,7 +38,7 @@ else
 fi
 
 ${container} build -f Dockerfile.builder -t godot-buildroot-builder
-${container} run -it --rm -v $(pwd):/tmp/buildroot -w /tmp/buildroot -e FORCE_UNSAFE_CONFIGURE=1 --userns=keep-id godot-buildroot-builder bash -c "make olddefconfig; make clean sdk"
+${container} run -it --rm -v $(pwd):/tmp/buildroot -w /tmp/buildroot -e FORCE_UNSAFE_CONFIGURE=1 --userns=keep-id godot-buildroot-builder scl enable devtoolset-9 "bash -c make syncconfig; make clean sdk"
 
 mkdir -p godot-toolchains
 mv output/images/${toolchain_prefix}_sdk-buildroot.tar.gz godot-toolchains
