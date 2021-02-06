@@ -1,6 +1,7 @@
 /output
 /dl
 /godot-toolchains
+/windows-build
 /.auto.deps
 /.config.cmd
 /.config.old

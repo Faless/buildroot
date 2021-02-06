@@ -89,3 +89,11 @@ if [ -L ${arch}/sysroot/usr/${libdir_to_keep} ]; then
 fi
 
 find -name *python2* -exec rm -rf {} \; || true
+
+ln -s bin/gcc ${arch}-gcc
+ln -s bin/g++ ${arch}-g++
+ln -s bin/ar ${arch}-ar
+ln -s bin/ranlib ${arch}-ranlib
+ln -s bin/gcc-ar ${arch}-gcc-ar
+ln -s bin/gcc-ranlib ${arch}-gcc-ranlib
+

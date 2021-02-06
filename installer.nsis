@@ -1,0 +1,26 @@
+Name "Godot SDK for TARGET_ARCH"
+OutFile "Godot-SDK-TARGET_ARCH.exe"
+InstallDir "$ProgramFiles\Godot SDKs\TARGET_ARCH"
+InstallDirRegKey HKLM SOFTWARE\ "Install_Dir"
+
+ShowInstDetails hide
+ShowUninstDetails hide
+
+XPStyle on
+
+Page directory
+Page instfiles
+
+DirText "Please select the installation folder."
+
+Section ""
+  SectionIn RO
+
+  SetOutPath "$INSTDIR"
+  File /r "TARGET_ARCH_sdk-buildroot/*.*"
+SectionEnd
+
+Section -post
+  ExecShell "" "$INSTDIR\fix-sdk.bat"
+SectionEnd
+

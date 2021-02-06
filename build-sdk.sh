@@ -2,15 +2,29 @@
 set -e
  
 function usage() {
-  echo "usage: $0 i686|x86_64|armv7"
+  echo "usage: $0 host target"
+  echo "  where host is one of linux-x86_64, windows-x86_64"
+  echo "  where target is one of i686, x86_64, armv7"
   exit 1
 }
 
-if [ -z $1 ]; then
+if [ -z $1 ] || [ -z $1 ]; then
   usage
 fi
 
 case $1 in
+  linux-x86_64)
+    host=$1
+  ;;
+  windows-x86_64)
+    host=$1
+  ;;
+  *)
+    echo "unknown SDK host \"$1\""
+    usage
+esac
+
+case $2 in
   i686)
     cp config-godot-i686 .config
     toolchain_prefix=i686-godot-linux-gnu
@@ -27,6 +41,7 @@ case $1 in
     bits=32
   ;;
   *)
+    echo "unknown SDK target \"$2\""
     usage
   ;;
 esac
@@ -40,22 +55,42 @@ else
   exit 1
 fi
 
-${container} build -f Dockerfile.builder -t godot-buildroot-builder
-${container} run -it --rm -v $(pwd):/tmp/buildroot -w /tmp/buildroot -e FORCE_UNSAFE_CONFIGURE=1 --userns=keep-id godot-buildroot-builder scl enable devtoolset-9 "bash -c make syncconfig; make clean sdk"
+function build_linux_sdk() {
+  ${container} build -f Dockerfile.linux-builder -t godot-buildroot-builder-linux
+  ${container} run -it --rm -v $(pwd):/tmp/buildroot -w /tmp/buildroot -e FORCE_UNSAFE_CONFIGURE=1 --userns=keep-id godot-buildroot-builder scl enable devtoolset-9 "bash -c make syncconfig; make clean sdk"
 
-mkdir -p godot-toolchains
+  mkdir -p godot-toolchains
+  
+  rm -fr godot-toolchains/${toolchain_prefix}_sdk-buildroot
+  tar xf output/images/${toolchain_prefix}_sdk-buildroot.tar.gz -C godot-toolchains
+  
+  pushd godot-toolchains/${toolchain_prefix}_sdk-buildroot
+  ../../clean-linux-toolchain.sh ${toolchain_prefix} ${bits}
+  popd
+  
+  pushd godot-toolchains
+  tar -cjf ${toolchain_prefix}_sdk-buildroot.tar.bz2 ${toolchain_prefix}_sdk-buildroot
+  rm -rf ${toolchain_prefix}_sdk-buildroot
+  popd
+}
 
-rm -fr godot-toolchains/${toolchain_prefix}_sdk-buildroot
-tar xf output/images/${toolchain_prefix}_sdk-buildroot.tar.gz -C godot-toolchains
+function build_windows_sdk() {
+  ${container} build -f Dockerfile.windows-builder -t godot-buildroot-builder-windows
 
-pushd godot-toolchains/${toolchain_prefix}_sdk-buildroot
-../../clean-linux-toolchain.sh ${toolchain_prefix} ${bits}
-popd
+  if [ ! -e godot-toolchains/${toolchain_prefix}_sdk-buildroot.tar.bz2 ]; then
+    build_linux_sdk
+  fi
 
-pushd godot-toolchains
-tar -cjf ${toolchain_prefix}_sdk-buildroot.tar.bz2 ${toolchain_prefix}_sdk-buildroot
-rm -rf ${toolchain_prefix}_sdk-buildroot
-popd
+  ${container} run -it --rm -v $(pwd):/tmp/buildroot -w /tmp/buildroot --userns=keep-id godot-buildroot-builder-windows bash -x /usr/local/bin/build-windows.sh ${toolchain_prefix}
+}
+
+if [ "${host}" == "linux-x86_64" ]; then
+  build_linux_sdk
+fi
+
+if [ "${host}" == "windows-x86_64" ]; then
+  build_windows_sdk
+fi
 
 echo
 echo "***************************************"

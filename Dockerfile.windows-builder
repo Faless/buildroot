@@ -1,0 +1,6 @@
+FROM fedora:33
+
+RUN dnf -y install mingw32-nsis xz bzip2 zip diffutils texinfo gcc gcc-c++ make mingw64-winpthreads mingw64-winpthreads-static mingw64-gcc mingw64-gcc-c++ curl && \
+    dnf clean all
+
+COPY build-windows.sh /usr/local/bin
