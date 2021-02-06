@@ -1,0 +1,30 @@
+diff -urN a/MANIFEST.in b/MANIFEST.in
+--- a/MANIFEST.in	2020-10-16 19:36:12.000000000 +0200
++++ b/MANIFEST.in	2021-02-06 02:54:46.299792918 +0100
+@@ -4,7 +4,6 @@
+ include LICENSE
+ 
+ include scons.1 sconsign.1 scons-time.1
+-recursive-include build/doc/man *.1
+ 
+ 
+ 
+diff -urN a/setup.cfg b/setup.cfg
+--- a/setup.cfg	2021-01-19 21:04:06.000000000 +0100
++++ b/setup.cfg	2021-02-06 02:56:41.302108409 +0100
+@@ -51,15 +51,6 @@
+ 	sconsign = SCons.Utilities.sconsign:main
+ 	scons-configure-cache = SCons.Utilities.ConfigureCache:main
+ 
+-[options.package_data]
+-* = *.txt, *.rst, *.1
+-scons.tool.docbook = *.*
+-
+-[options.data_files]
+-. = build/doc/man/scons.1
+-	build/doc/man/scons-time.1
+-	build/doc/man/sconsign.1
+-
+ [sdist]
+ dist-dir = build/dist
+ 
