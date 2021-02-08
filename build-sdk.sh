@@ -14,14 +14,17 @@ case $1 in
   i686)
     cp config-godot-i686 .config
     toolchain_prefix=i686-godot-linux-gnu
+    bits=32
   ;;
   x86_64)
     cp config-godot-x86_64 .config
     toolchain_prefix=x86_64-godot-linux-gnu
+    bits=64
   ;;
   armv7)
     cp config-godot-armv7 .config
     toolchain_prefix=arm-godot-linux-gnueabihf
+    bits=32
   ;;
   *)
     usage
@@ -41,7 +44,18 @@ ${container} build -f Dockerfile.builder -t godot-buildroot-builder
 ${container} run -it --rm -v $(pwd):/tmp/buildroot -w /tmp/buildroot -e FORCE_UNSAFE_CONFIGURE=1 --userns=keep-id godot-buildroot-builder scl enable devtoolset-9 "bash -c make syncconfig; make clean sdk"
 
 mkdir -p godot-toolchains
-mv output/images/${toolchain_prefix}_sdk-buildroot.tar.gz godot-toolchains
+
+rm -fr godot-toolchains/${toolchain_prefix}_sdk-buildroot
+tar xf output/images/${toolchain_prefix}_sdk-buildroot.tar.gz -C godot-toolchains
+
+pushd godot-toolchains/${toolchain_prefix}_sdk-buildroot
+../../clean-linux-toolchain.sh ${toolchain_prefix} ${bits}
+popd
+
+pushd godot-toolchains
+tar -cjf ${toolchain_prefix}_sdk-buildroot.tar.bz2 ${toolchain_prefix}_sdk-buildroot
+rm -rf ${toolchain_prefix}_sdk-buildroot
+popd
 
 echo
 echo "***************************************"
