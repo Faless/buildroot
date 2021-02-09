@@ -140,7 +140,29 @@ function build_gcc() {
   mkdir -p "${base_dir}/build/gcc"
   pushd "${base_dir}/build/gcc"
 
-  "${base_dir}/src/gcc/configure" --prefix=${target_dir} --sysconfdir=${target_dir}/etc --enable-static --host=x86_64-w64-mingw32  --build=x86_64-linux-gnu --target=${target_arch} --with-sysroot=${target_dir}/${target_arch}/sysroot --enable-__cxa_atexit --with-gnu-ld --disable-libssp --disable-multilib --disable-decimal-float --without-zstd --enable-libquadmath --enable-tls --enable-threads --with-arch=nocona --enable-languages=c,c++ --enable-shared --disable-libgomp --disable-libstdcxx --with-static-standard-libraries LDFLAGS="-lssp"
+  flags="$(${target_dir}/bin/${target_arch}-gcc -v 2>&1 | grep Configured\ with:)"
+  skip="prefix sysconfdir with-sysroot with-gmp with-mpc with-mpfr with-pkgversion with-bugurl with-isl with-build-time-tools"
+  newflags="--prefix=${target_dir} --sysconfdir=${target_dir}/etc --enable-static --host=x86_64-w64-mingw32  --build=x86_64-linux-gnu --with-sysroot=${target_dir}/${target_arch}/sysroot --with-static-standard-libraries"
+  
+  for flag in ${flags}; do
+    keep=1
+    if ! echo ${flag} | grep -qE '^--'; then
+      keep=0
+    fi
+  
+    for s in ${skip}; do
+      if echo ${flag} | grep -qE "^--${s}"; then
+        keep=0
+        break
+      fi
+    done
+  
+    if [ ${keep} -eq 1 ]; then
+      newflags="${newflags} ${flag}"
+    fi
+  done
+
+  "${base_dir}/src/gcc/configure" ${newflags} LDFLAGS="-lssp"
   make -j
   make install-strip
   popd
