@@ -23,16 +23,16 @@ Unpack the toolchain anywhere you like and run the `relocate-sdk.sh` script with
 
 After this you can build the engine more-or-less like normal. For instance for `x86_64`:
 
-`PATH=/home/hp/tmp/x86_64-godot-linux-gnu_sdk-buildroot/usr/bin:$PATH scons p=x11 target=release_debug CC=x86_64-godot-linux-gnu-gcc CXX=x86_64-godot-linux-gnu-g++ -j64`
+`PATH=/home/hp/tmp/x86_64-godot-linux-gnu_sdk-buildroot/usr/bin:$PATH scons p=x11 target=release_debug -j64 use_static_cpp=yes`
 
 For 32-bit Intel:
 
-`PATH=/home/hp/tmp/i686-godot-linux-gnu_sdk-buildroot/usr/bin/:$PATH scons p=x11 target=release_debug CC=i686-godot-linux-gnu-gcc CXX=i686-godot-linux-gnu-g++ -j64 use_static_cpp=yes bits=32`
+`PATH=/home/hp/tmp/i686-godot-linux-gnu_sdk-buildroot/usr/bin/:$PATH scons p=x11 target=release_debug -j64 use_static_cpp=yes bits=32`
 *Note the `bits=32` at the end!*
 
 And for 32bit ARM:
 
-`PATH=/home/hp/tmp/arm-godot-linux-gnueabihf_sdk-buildroot/usr/bin/:$PATH scons p=x11 target=release_debug CC=arm-linux-gcc CXX=arm-linux-g++ -j64 use_static_cpp=yes CCFLAGS="-mtune=cortex-a72 -mcpu=cortex-a72 -mfloat-abi=hard -mlittle-endian -munaligned-access -mfpu=neon-fp-armv8" module_denoise_enabled=no module_raycast_enabled=no module_webm_enabled=no`
+`PATH=/home/hp/tmp/arm-godot-linux-gnueabihf_sdk-buildroot/usr/bin/:$PATH scons p=x11 target=release_debug -j64 use_static_cpp=yes CCFLAGS="-mtune=cortex-a72 -mcpu=cortex-a72 -mfloat-abi=hard -mlittle-endian -munaligned-access -mfpu=neon-fp-armv8" module_denoise_enabled=no module_raycast_enabled=no module_webm_enabled=no`
 
 For other build-time options please see https://docs.godotengine.org/en/stable/development/compiling/compiling_for_x11.html
 
