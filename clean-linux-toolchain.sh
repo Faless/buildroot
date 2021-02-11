@@ -88,11 +88,11 @@ if [ -L ${arch}/sysroot/usr/${libdir_to_keep} ]; then
   mv ${arch}/sysroot/usr/${libdir_to_keep}/pulseaudio ${arch}/sysroot/usr/${libdir_to_remove}
 fi
 
-ln -s bin/gcc ${arch}-gcc
-ln -s bin/g++ ${arch}-g++
-ln -s bin/ar ${arch}-ar
-ln -s bin/ranlib ${arch}-ranlib
-ln -s bin/gcc-ar ${arch}-gcc-ar
-ln -s bin/gcc-ranlib ${arch}-gcc-ranlib
+ln -s ${arch}-gcc bin/gcc
+ln -s ${arch}-g++ bin/g++
+ln -s ${arch}-ar bin/ar
+ln -s ${arch}-ranlib bin/ranlib
+ln -s ${arch}-gcc-ar bin/gcc-ar
+ln -s ${arch}-gcc-ranlib bin/gcc-ranlib
 
 find -name *python2* -exec rm -rf {} \; || true
