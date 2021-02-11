@@ -89,7 +89,11 @@ if [ -L ${arch}/sysroot/usr/${libdir_to_keep} ]; then
 fi
 
 ln -s ${arch}-gcc bin/gcc
+ln -s ${arch}-gcc.br_real bin/gcc.br_real
 ln -s ${arch}-g++ bin/g++
+ln -s ${arch}-g++.br_real bin/g++.br_real
+ln -s ${arch}-cpp bin/cpp
+ln -s ${arch}-cpp.br_real bin/cpp.br_real
 ln -s ${arch}-ar bin/ar
 ln -s ${arch}-ranlib bin/ranlib
 ln -s ${arch}-gcc-ar bin/gcc-ar
