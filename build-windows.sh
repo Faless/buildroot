@@ -59,6 +59,7 @@ target_dir="${base_dir}/${target_arch}_sdk-buildroot"
 function unpack_linux_sdk() {
   mkdir -p "${base_dir}"
   tar xf "${godot_toolchain_dir}/${target_arch}_sdk-buildroot.tar.bz2" -C "${base_dir}"
+  rm "${target_dir}/bin/"{gcc,g++,cpp,ar,ranlib,gcc-ar,gcc-ranlib}
 }
 
 function pack_windows_sdk() {
