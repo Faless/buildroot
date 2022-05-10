@@ -62,9 +62,10 @@ Afterwards the SDK will be in `output/images/<arch>-godot-linux-gnu_sdk-buildroo
 
 This method uses a CentOS7 container to make the buildroot *itself* portable so it can be distributed to other users. This is also the way the downloads above are generated.
 
- * run `./build-sdk.sh <arch>` for instance `x86_64`
+ * run `./build-sdk.sh <host> <arch>` for instance `./build-sdk.sh linux-x86_64 x86_64`
 
-The toolchain will appear in the `godot-toolchains` directory
+Run `./build-sdk.sh` without arguments to get a list of valid hosts and arches.
+The toolchain will appear in the `godot-toolchains` directory.
 
 ## Modifying the toolchain
 
