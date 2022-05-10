@@ -1,6 +1,7 @@
 FROM centos:7
 
-RUN yum -y install yum install centos-release-scl && \
+RUN yum -y update && \
+    yum -y install centos-release-scl && \
     yum -y install devtoolset-9 && \
     yum -y install make ncurses-devel which unzip perl cpio rsync fileutils bc bzip2 gzip sed git python file patch wget perl-Thread-Queue perl-Data-Dumper perl-ExtUtils-MakeMaker && \
     yum clean all
