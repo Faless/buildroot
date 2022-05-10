@@ -2,12 +2,12 @@
 
 set -e
 
-binutils_ver=2.35.1
-gcc_ver=10.2.0
+binutils_ver=2.35.2
+gcc_ver=10.3.0
 mpc_ver=1.2.1
 mpfr_ver=4.1.0
 gmp_ver=6.2.1
-isl_ver=0.18
+isl_ver=0.23
 scons_local_ver=4.1.0
 sevenz_ver=1900
 # GNU Make 4.3 cannot be cross compiled
@@ -29,7 +29,7 @@ gmp_file=gmp-${gmp_ver}.tar.xz
 gmp_url=https://ftp.gnu.org/gnu/gmp/${gmp_file}
 
 isl_file=isl-${isl_ver}.tar.bz2
-isl_url=https://gcc.gnu.org/pub/gcc/infrastructure/${isl_file}
+isl_url=https://libisl.sourceforge.io/${isl_file}
 
 scons_local_file=scons-local-${scons_local_ver}.zip
 scons_local_url=https://sourceforge.net/projects/scons/files/${scons_local_file}
