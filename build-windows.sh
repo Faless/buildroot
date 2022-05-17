@@ -44,9 +44,11 @@ case $1 in
   ;;
   x86_64-godot-linux-gnu)
   ;;
+  aarch64-godot-linux-gnu)
+  ;;
   *)
     echo "usage: $0 <tuple>"
-    echo "tuple can be one of : arm-godot-linux-gnueabihf, i686-godot-linux-gnu, x86_64-godot-linux-gnu"
+    echo "tuple can be one of : arm-godot-linux-gnueabihf, i686-godot-linux-gnu, x86_64-godot-linux-gnu, aarch64-godot-linux-gnu"
     exit 1
   ;;
 esac

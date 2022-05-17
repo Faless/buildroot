@@ -4,7 +4,7 @@ set -e
 function usage() {
   echo "usage: $0 host target"
   echo "  where host is one of linux-x86_64, windows-x86_64"
-  echo "  where target is one of i686, x86_64, armv7"
+  echo "  where target is one of i686, x86_64, armv7, aarch64"
   exit 1
 }
 
@@ -39,6 +39,11 @@ case $2 in
     cp config-godot-armv7 .config
     toolchain_prefix=arm-godot-linux-gnueabihf
     bits=32
+  ;;
+  aarch64)
+    cp config-godot-aarch64 .config
+    toolchain_prefix=aarch64-godot-linux-gnu
+    bits=64
   ;;
   *)
     echo "unknown SDK target \"$2\""
