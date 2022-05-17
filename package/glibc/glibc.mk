@@ -5,6 +5,9 @@
 ################################################################################
 
 GLIBC_VERSION = 2.19
+ifeq ($(BR2_aarch64),y)
+GLIBC_VERSION = 2.28
+endif
 GLIBC_SITE = https://ftp.gnu.org/gnu/glibc
 
 GLIBC_LICENSE = GPL-2.0+ (programs), LGPL-2.1+, BSD-3-Clause, MIT (library)
